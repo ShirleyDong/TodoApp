@@ -26,4 +26,24 @@ router.get('/task/:id', function(req, res, next){
 	});
 });
 
+//Save task
+router.get('/task', function(req, res, next){
+	var task = req.body;
+	if(!task.content || (task.isFinished + '')){
+		res.status(400);
+		res.json({
+			"error": "Bad Data"
+		});
+	} else {
+		db.tasks.save(task, function(err, task){
+			if (err) {
+			res.send(err);
+			}
+			res.json(task);
+		});
+	}
+
+
+});
+
 module.exports = router;
